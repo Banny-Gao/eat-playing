@@ -1,0 +1,200 @@
+@mixin padding-lr($width) {
+  padding-left: $width;
+  padding-right: $width;
+}
+
+@mixin padding-tb($width) {
+  padding-top: $width * 2upx;
+  padding-bottom: $width * 2upx;
+}
+
+@mixin border($width: 1upx, $style: solid, $color: #e3e3e3) {
+  border: borderStyle($width, $style, $color)
+}
+
+@mixin borderRadius($per, $f: 0) {
+  @if $f==0 {
+    border-radius: $per * 1%;
+  }
+
+  @else {
+    border-radius: $per * 2upx;
+  }
+}
+
+@mixin text-overflow($line: 1, $substract: 0) {
+  overflow: hidden;
+
+  @if $line==1 {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100% - $substract;
+  }
+
+  @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $line;
+    -webkit-box-orient: vertical;
+  }
+}
+
+/* 生成三角箭头 */
+@mixin arrow($width, $border-width, $direction, $color, $background-color, $position: relative) {
+  $map-direction: (top: bottom left right,
+      bottom: top left right,
+      left: right top bottom,
+      right: left top bottom);
+
+  @if not map-has-key($map-direction, $direction) {
+    @error "arrow $direction 必须为：#{map-keys($map-direction)}";
+  }
+
+  $conf: map-get($map-direction, $direction);
+
+  position: $position;
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+  }
+
+  &:before {
+    top: 0;
+    left: 0;
+
+    border-#{nth($conf, 1)}: $width solid $color;
+    border-#{nth($conf, 2)}: $width solid transparent;
+    border-#{nth($conf, 3)}: $width solid transparent;
+  }
+
+  &:after {
+    border-#{nth($conf, 1)}: ($width - $border-width) solid $background-color;
+    border-#{nth($conf, 2)}: ($width - $border-width) solid transparent;
+    border-#{nth($conf, 3)}: ($width - $border-width) solid transparent;
+    top: if($direction==bottom, 0, $border-width);
+    left: if($direction==right, 0, $border-width);
+  }
+}
+
+/* 文本超过区域，淡出 */
+@mixin truncate-text-multiline($width, $height, $line-height: 32px) {
+  overflow: hidden;
+  display: block;
+  height: $height;
+  width: $width;
+  line-height: $line-height;
+  position: relative;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: $line-height;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0), #f5f6f9 50%);
+  }
+}
+
+/* 文字选中背景色 */
+@mixin textSelection($bg, $color) {
+  &::selection {
+    background: $bg;
+    color: $color;
+  }
+}
+
+/* 随背景色阴影 */
+@mixin dynamicShadow($x:0, $y:0, $out:0, $blur: 12px) {
+  position: relative;
+  &::after {
+    content: '';
+    border-radius: inherit;
+    width: 100% + $out;
+    height: 100%;
+    position: absolute;
+    background: inherit;
+    top: -$out/2 + -$x;
+    top: -$out/2 + -$y;
+    filter: blur($blur);
+    opacity: 0.7;
+    z-index: -1;
+  }
+}
+
+/* 更改图像在其容器内的适合度和位置，同时保留其长宽比 */
+@mixin imageContain($position: center) {
+  object-fit: contain;
+  object-position: $position;
+}
+
+@mixin imageCover($x: center, $y: center) {
+  object-fit: cover;
+  object-position: $x $y;
+}
+
+/* 自定义滚动条 */
+@mixin customScrollbar($width: 16upx, $insetWidth: 8upx, $bg:rgba(0, 0, 0, 0.3), $radius:16upx, ) {
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 16upx;
+  }
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 $insetWidth $bg;
+    border-radius: $radius;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 $insetWidth $bg;
+    border-radius: $radius;
+  }
+}
+
+/* 文字渐变色 */
+@mixin gradientText($gradientColor:-webkit-linear-gradient(pink, red)) {
+  background: $gradientColor;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+}
+
+/* 滚动渐变消失 */
+@mixin overflowScrollGradient($height: 60px, $position: top) {
+  position: relative;
+  overflow-y: scroll;
+  padding-#{$position}: $height;
+
+  &::after {
+    content: '';
+    position: absolute;
+    #{$position}: 0;
+    width: 100%;
+    height: $height;
+
+    @if $postion==top {
+      background: linear-gradient(white,
+          rgba(255, 255, 255, 0));
+    }
+
+    @else {
+      background: linear-gradient(rgba(255, 255, 255, 0.001),
+          white);
+    }
+
+    pointer-events: none;
+  }
+}
+
+/* 重置除了direction和unicode-bidi的样式 */
+@mixin resetAllStyles() {
+  all: initial;
+}
+
+@mixin zebraList($odd: odd, $default: #f8f8f8, $active: #eeeeee) {
+  background: $default;
+  &:nth-child($odd) {
+    background-color: $active;
+  }
+}

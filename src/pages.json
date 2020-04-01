@@ -1,0 +1,99 @@
+{
+  "pages": [
+    {
+      "path": "pages/index",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/positionChoice",
+      "style": {
+        "navigationBarTitleText": "地址选择"
+      }
+    },
+    {
+      "path": "pages/address",
+      "style": {
+        "navigationBarTitleText": "收货地址"
+      }
+    },
+    {
+      "path": "pages/addressChoice",
+      "style": {
+        "navigationBarTitleText": "选择收货地址"
+      }
+    },
+    {
+      "path": "pages/createAddress"
+    },
+    {
+      "path": "pages/user",
+      "style": {
+        "navigationBarTitleText": "个人中心"
+      }
+    },
+    {
+      "path": "pages/goodDetail",
+      "style": {
+        "navigationBarTitleText": "商品详情",
+        "usingComponents": {
+          "painter":"/wxcomponents/painter/painter"
+        }
+      }
+    },
+    {
+      "path": "pages/checkout"
+    },
+    {
+      "path": "pages/orderList",
+      "style": {
+        "navigationBarTitleText": "订单列表",
+        "enablePullDownRefresh": true
+      }
+    },
+    {
+      "path": "pages/orderDetail",
+      "style": {
+        "navigationBarTitleText": "订单详情"
+      }
+    },
+    {
+      "path": "pages/platformInfo",
+      "style": {
+        "navigationBarTitleText": "大邑微生活优选商城"
+      }
+    }
+  ],
+  "subPackages": [],
+  "globalStyle": {
+    "backgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#AD2532"
+  },
+  "tabBar": {
+    "color": "#707070",
+    "selectedColor": "#AD2532",
+    "backgroundColor": "#F8F8F8",
+    "list": [
+      {
+        "pagePath": "pages/index",
+        "text": "首页",
+        "iconPath": "/static/icon/shouye.png",
+        "selectedIconPath": "/static/icon/shouye-selected.png"
+      },
+      {
+        "pagePath": "pages/address",
+        "text": "收货地址",
+        "iconPath": "/static/icon/dizhi.png",
+        "selectedIconPath": "/static/icon/dizhi-selected.png"
+      },
+      {
+        "pagePath": "pages/user",
+        "text": "我的",
+        "iconPath": "/static/icon/wode.png",
+        "selectedIconPath": "/static/icon/wode-selected.png"
+      }
+    ]
+  }
+}

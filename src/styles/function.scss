@@ -1,0 +1,8 @@
+/* function */
+@function borderStyle($width: 1upx, $style: solid, $color: #e3e3e3) {
+  @return $width $style $color;
+}
+
+@function getClass($front, $body) {
+  @return $front-$body
+}

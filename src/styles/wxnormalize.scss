@@ -1,0 +1,90 @@
+@import './var.scss';
+
+button {
+  color: $default-color;
+  padding: 0;
+  line-height: inherit;
+  margin: 0;
+  border-radius: 0;
+}
+
+button::after {
+  border: 0;
+}
+
+
+.radio-group {
+  .radio_control {
+    z-index: 1;
+    margin: 0;
+    opacity: 0
+  }
+
+  .radio-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    padding-right: 10px;
+    border-radius: 50%;
+    border: 1rpx solid #a2a2a2;
+    position: absolute;
+    margin-left: 6px;
+    margin-top: 4px;
+
+    &.active {
+      border-color: #DE513F;
+      transition: all .2s ease-in;
+    }
+
+    &.active::after {
+      content: '';
+      position: absolute;
+      background: #DE513F;
+      border-radius: 50%;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      opacity: 1;
+      animation: bounceIn .75s;
+    }
+  }
+}
+
+@keyframes bounceIn {
+  from,
+  20%,
+  40%,
+  60%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3) translate(-50%, -50%);
+  }
+
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1) translate(-50%, -50%);
+  }
+
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9) translate(-50%, -50%);
+  }
+
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03) translate(-50%, -50%);
+  }
+
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97) translate(-50%, -50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1) translate(-50%, -50%);
+  }
+}

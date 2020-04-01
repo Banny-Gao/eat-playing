@@ -1,0 +1,384 @@
+@import './var.scss';
+@import './mixin.scss';
+@import './function.scss';
+
+/* 本机文字 */
+.system-font {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu,
+    Cantarell, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+page, .page {
+  @extend .system-font;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  line-height: 1.6;
+  font-size: 28upx;
+  color: #333;
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  overflow: hidden;
+}
+
+scroll-view {
+  height: 100%;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+text {
+  display: inline-block;
+}
+
+.base-line-bottom{
+  vertical-align: bottom;
+}
+.del{
+  text-decoration: line-through;
+}
+
+/* 容器 */
+.container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-flow: column;
+  position: relative;
+}
+
+/* font*/
+@for $num from 10 through 40 {
+  .font-#{$num} {
+    font-size: $num * 2upx;
+  }
+}
+
+.font-blod {
+  font-weight: 700;
+}
+
+.color-fff {
+  color: #fff;
+}
+
+.color-000 {
+  color: #000;
+}
+
+.color-222 {
+  color: #222;
+}
+
+.color-333 {
+  color: #333;
+}
+
+.color-666 {
+  color: #656565!important;
+}
+
+.color-999 {
+  color: #999;
+}
+
+.color-yellow {
+  color: #F09429;
+}
+
+.color-red {
+  color: #DC4F3F;
+}
+
+.color-lightgreen {
+  color: #96D5AF;
+}
+
+.color-lightblue {
+  color: #3771D6
+}
+
+.color-grey {
+  color: #ccc;
+}
+
+.color-lightgrey {
+  color: #E5E5E5;
+}
+
+@each $posi in $position-list {
+  .border-#{$posi} {
+    border-#{$posi}: borderStyle()
+  }
+}
+
+@each $posi in $position-list {
+  @for $num from 4 through 30 {
+    .margin-#{$posi}-#{$num} {
+      margin-#{$posi}: $num * 2upx;
+    }
+
+    .padding-#{$posi}-#{$num} {
+      padding-#{$posi}: $num * 2upx;
+    }
+  }
+}
+
+.padding-lr-8 {
+  @include padding-lr(8 * 2upx)
+}
+
+.padding-lr-10 {
+  @include padding-lr(10 * 2upx)
+}
+
+.padding-lr-12 {
+  @include padding-lr(12 * 2upx)
+}
+
+.padding-lr-15 {
+  @include padding-lr(15 * 2upx)
+}
+
+.padding-lr-16 {
+  @include padding-lr(16 * 2upx)
+}
+
+.padding-lr-18 {
+  @include padding-lr(18 * 2upx)
+}
+
+.padding-lr-20 {
+  @include padding-lr(20 * 2upx)
+}
+
+
+.padding-tb-6 {
+  @include padding-tb(6)
+}
+
+.padding-tb-8 {
+  @include padding-tb(8)
+}
+
+.padding-tb-10 {
+  @include padding-tb(10)
+}
+
+.padding-tb-12 {
+  @include padding-tb(12)
+}
+
+.padding-tb-14 {
+  @include padding-tb(14)
+}
+
+.padding-tb-16 {
+  @include padding-tb(16)
+}
+
+.padding-tb-18 {
+  @include padding-tb(18)
+}
+
+.padding-tb-20 {
+  @include padding-tb(20)
+}
+
+
+
+.border-radius {
+  @include borderRadius(50)
+}
+
+.boxshadow {
+  box-shadow: 0 0 4upx 2upx $border-default-color;
+}
+
+.boxshadow-b {
+  box-shadow: 0 4upx 4upx 2upx $border-default-color;
+}
+
+.bg-fff{
+  background-color: #fff;
+}
+
+.bg-shallow {
+  background: #f8f8f8;
+}
+
+.bg-grey {
+  background: $theame-grey;
+}
+
+.bg-waring {
+  background: $theame-warning;
+}
+
+/* flex */
+.flex {
+  display: flex;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-column {
+  flex-flow: column;
+}
+
+.flex-a-c {
+  align-items: center;
+}
+
+.flex-s-c {
+  justify-content: center;
+}
+
+.flex-s-b {
+  justify-content: space-between;
+}
+
+.flex-s-a {
+  justify-content: space-around;
+}
+
+@for $num from 1 through 3 {
+  .ellipsis-#{$num} {
+    @include text-overflow($num);
+    word-break: break-word;
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-wrap{
+  white-space: pre-wrap;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+
+.line-height-16{
+  line-height: 32upx;
+}
+
+
+/* 给一个元素一个宽度等于1个本机设备像素的边框，这看起来非常清晰。 */
+.hairline-border {
+  box-shadow: 0 0 0 2upx #e3e3e3;
+}
+
+@media (min-resolution: 2dppx) {
+  .hairline-border {
+    box-shadow: 0 0 0 calc(2upx /2) #e3e3e3;
+  }
+}
+
+@media (min-resolution: 3dppx) {
+  .hairline-border {
+    box-shadow: 0 0 0 calc(2upx /3) #e3e3e3;
+  }
+}
+
+@media (min-resolution: 4dppx) {
+  .hairline-border {
+    box-shadow: 0 0 0 calc(2upx /4) #e3e3e3;
+  }
+}
+
+/* 防弹隐藏，js可访问 */
+.offscreen {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 2upx;
+  margin: -2upx;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 2upx;
+}
+
+.visibility-hidden {
+  visibility: hidden;
+}
+
+
+.btns-group {
+  width: 100%;
+  padding: 17upx 94upx;
+  position: fixed;
+  bottom: 0;
+  background:rgba(255,255,255,1);
+  box-shadow:0px -4upx 16upx 2upx rgba(239,242,245,1);
+}
+.picker-box {
+  margin-left:30upx;
+  padding-right: 30upx;
+  height: 116upx;
+  line-height: 116upx;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  .picker {
+    .time{
+      display: flex;
+      justify-content: space-between;
+    }
+    .choseTime {
+      display: flex;
+      position: relative;
+    }
+  }
+}
+.isslect{
+  margin-right: 20upx;
+}
+.icon-arrow{
+  width: 16upx;
+  height: 16upx;
+  margin-left: 10upx;
+  border-top: 2upx solid #999999;
+  border-right: 2upx solid #999999;
+  transform: rotate(45deg);
+  position: absolute;
+  right: 0;
+  top: 50upx;
+}
+.textInput {
+  text-align: right;
+  width: 75%;
+  color: #666;
+}
+.place {
+  height: 90upx;
+  width: 100%;
+}
+.loadingBtn {
+  width: 100%;
+  text-align: center;
+  color: #999;
+  font-size: 28upx;
+  background: #fff;
+  margin-top: 24upx;
+  &::after{
+    border: none;
+  }
+}
