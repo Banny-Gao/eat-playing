@@ -57,7 +57,7 @@
       <view id="org_name"
             class="org_name"
             v-if="convertedGood.org_name">
-        <view class="text-center font-16">商家信息</view>
+        <view class="text-center font-16 t">商家信息</view>
         <view class="flex flex-a-c">
           <text>商家名称： {{ convertedGood.org_name }}</text>
         </view>
@@ -88,17 +88,17 @@
       <view id="intro_text"
             class="intro_text"
             v-if="convertedGood.intro_text">
-        <view class="text-center font-16">购买须知</view>
+        <view class="text-center font-16 t">购买须知</view>
         <parser :html="convertedGood.intro_text" />
       </view>
       <view id="context"
             class="context"
             v-if="convertedGood.context">
-        <view class="text-center font-16">商品详情</view>
+        <view class="text-center font-16 t">商品详情</view>
         <parser :html="convertedGood.context" />
       </view>
-      <view class="recomend">
-        <view class="text-center font-16">为您推荐</view>
+      <view id="recomend" class="recomend" v-if="convertRecomendList.length">
+        <view class="text-center font-16 t">为您推荐</view>
         <view class="goods-wraper">
           <view class="goods-item"
                 v-for="item of convertRecomendList"
@@ -206,6 +206,7 @@
   				{ id: 'org_name', title: '商家信息' },
   				{ id: 'intro_text', title: '购买须知' },
   				{ id: 'context', title: '商品详情' },
+  				{ id: 'recomend', title: '为您推荐' },
   			],
   			goodInfo: {},
   			goodsNavOptions: [
@@ -711,7 +712,7 @@
   	text-align: center;
   	background: #fff;
   	border-right: borderStyle();
-  	&.active {
+    &.active {
   		color: $themeColor;
   	}
   	&:last-child {
@@ -791,6 +792,16 @@
   	@extend .border-bottom;
   	box-sizing: border-box;
   	padding: 28upx;
+    .t {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &::before, &::after{
+        content: '-';
+        margin: 0 12upx;
+      }
+    }
+    
   }
   .border-bottom {
   	border-bottom: borderStyle();
@@ -906,7 +917,6 @@
   	.goods-wraper {
   		box-sizing: border-box;
   		flex-wrap: wrap;
-  		padding: 0 20upx;
   		display: flex;
   		&.full-h {
   			height: 100%;
