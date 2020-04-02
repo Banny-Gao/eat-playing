@@ -86,7 +86,7 @@
       this.isPreLoadingShow = true
       timeTask.run(() => {
         this.isPreLoadingShow = false
-      }, 1000)
+      }, 1500)
     }
   }
 </script>

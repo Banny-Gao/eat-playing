@@ -705,7 +705,7 @@
   		await this.getRecommendGoods()
   		timeTask.run(() => {
   			this.isPreLoadingShow = false
-  		}, 1000)
+  		}, 2000)
   	},
   	onUnload() {
   		clearInterval(this.randomHeaderTimer)
@@ -966,7 +966,7 @@
   			margin-top: 20upx;
   			width: 48%;
   			margin-right: 4%;
-        height: 380upx;
+        height: 400upx;
   			background: #fff;
   			&:nth-child(2n) {
   				margin-right: 0;
@@ -982,8 +982,8 @@
   				}
   				.good-qty {
   					position: absolute;
-  					bottom: 0;
-  					right: 0;
+  					left: 0;
+  					top: 0;
   					padding: 0 20upx;
   					background: rgba($color: #000000, $alpha: 0.4);
   					color: #ffffff;
@@ -1041,6 +1041,7 @@
   				color: #333;
   				border-radius: 6upx;
   				border: 1px solid #333;
+          text-decoration: line-through;
   				&::before {
   					content: '原价';
   					width: 60upx;

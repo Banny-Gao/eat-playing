@@ -182,7 +182,7 @@
       await this.getCategories()
       timeTask.run(() => {
         this.isPreLoadingShow = false
-      }, 1000)
+      }, 1500)
   	},
   	onShow() {
   		this.isGetUserInfoModalShow = this.user.userInfo.avatarUrl ? false : true

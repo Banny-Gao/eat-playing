@@ -153,7 +153,7 @@
       this.postOrderDetailInfo()
       timeTask.run(() => {
         this.isPreLoadingShow = false
-      }, 1000)
+      }, 1500)
   	},
   	onLoad({ orderId }) { 
   		this.orderId = orderId

@@ -472,7 +472,7 @@ export default {
     }, 500)
     timeTask.run(() => {
       this.isPreLoadingShow = false
-    }, 1000)
+    }, 1500)
   },
   watch: {
     tabStatus() {

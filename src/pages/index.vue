@@ -238,7 +238,7 @@
       await this.getCategories()
       timeTask.run(() => {
         this.isPreLoadingShow = false
-      }, 1000)
+      }, 2500)
     },
   	async onPullDownRefresh() {
   		const params = (this.goodsParams = {
@@ -263,7 +263,7 @@
 </script>
 <style scoped lang="scss">
   .page {
-    background-color: #fff;
+    background-color: #f8f8f8;
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: left top;
@@ -282,7 +282,7 @@
   		width: 48%;
   		margin-right: 4%;
       background: #fff;
-      height: 380upx;
+      height: 400upx;
   		&:nth-child(2n) {
   			margin-right: 0;
   		}
@@ -297,8 +297,8 @@
   			}
   			.good-qty {
   				position: absolute;
-  				bottom: 0;
-  				right: 0;
+  				left: 0;
+  				top: 0;
   				padding: 0 20upx;
   				background: rgba($color: #000000, $alpha: 0.4);
   				color: #ffffff;
@@ -356,6 +356,7 @@
           color: #333;
           border-radius: 6upx;
           border: 1px solid #333;
+          text-decoration: line-through;
           &::before{
               content: '原价';
               width: 60upx;
