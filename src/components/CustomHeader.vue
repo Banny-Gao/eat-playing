@@ -9,9 +9,8 @@
         <view class="city-con" v-if="city" @click="navigateToChoicePosition">
           <text class="city" :style="{fontSize: cityFont + 'rpx'}">{{ city }}</text>
           <uni-icons
-            class="arrowdown-icon"
             type="arrowdown"
-            color="#fff"
+            color="#000"
             size="16"
           />
         </view>
@@ -19,7 +18,7 @@
           v-else
           class="map-icon"
           type="map-pin-ellipse"
-          color="#fff"
+          color="#000"
           size="20"
         />
       </view>
@@ -398,9 +397,8 @@ export default {
 
 .header-fix {
   position: relative;
-  background-color: $themeColor;
   font-size: 32upx;
-  color: #fff;
+  color: $themeFontColor;
   z-index: 9999;
 }
 .__header {
@@ -419,7 +417,7 @@ export default {
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    color: #333;
+    color: $themeFontColor;
     font-size: 28upx;
     .placeholder-text {
       @include text-overflow(1);
@@ -457,10 +455,6 @@ export default {
   .map-icon {
     animation: toggleIn 1.2s infinite;
   }
-  .arrowdown-icon {
-    position: relative;
-    top: 6upx;
-  }
 }
 .icon {
   box-sizing: border-box;
@@ -485,7 +479,7 @@ export default {
   z-index: 999;
   width: 100%;
   height: 100%;
-  background-color: rgba($color: #000000, $alpha: 0.7);
+  background-color: rgba($color: #000000, $alpha: 0.56);
   .voice-button {
     background: #f8f8f8;
     width: 60%;

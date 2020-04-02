@@ -23,8 +23,8 @@ http.interceptor.request((config, cancel) => {
   const { showError, showLoading, hideLoading } = config.header
 
   isShowErr = showError !== undefined ? showError : true
-  iShowLoading = showLoading !== undefined ? showLoading : true
-  isHideLoading = hideLoading !== undefined ? hideLoading : true
+  iShowLoading = showLoading !== undefined ? showLoading : false
+  isHideLoading = hideLoading !== undefined ? hideLoading : false
 
   config.header = {
     ...config.header,

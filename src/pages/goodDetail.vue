@@ -67,7 +67,7 @@
           </text>
           <view class="intro-btn">
             <uni-icons type="location-filled"
-                       color="#fff"
+                       color="#333"
                        size="14" />
             <text class="margin-left-4"
                   @click="handleMapNavigate">导航</text>
@@ -78,7 +78,7 @@
           <text class="flex-1 ellipsis-1">联系电话 {{ convertedGood.contact_phone }}</text>
           <view class="intro-btn">
             <uni-icons type="phone-filled"
-                       color="#fff"
+                       color="#333"
                        size="14" />
             <text class="margin-left-4"
                   @click="handleMakePhoneCall(convertedGood.contact_phone)">拨打</text>
@@ -97,7 +97,9 @@
         <view class="text-center font-16 t">商品详情</view>
         <parser :html="convertedGood.context" />
       </view>
-      <view id="recomend" class="recomend" v-if="convertRecomendList.length">
+      <view id="recomend"
+            class="recomend"
+            v-if="convertRecomendList.length">
         <view class="text-center font-16 t">为您推荐</view>
         <view class="goods-wraper">
           <view class="goods-item"
@@ -115,7 +117,7 @@
             <view class="good-title ellipsis-2"
                   :class="item.isExpired ? 'disable': ''">{{item.title}}</view>
             <view class="padding-lr-8">
-              <text class="pre-price margin-top-10"><text class="currency">￥</text>{{item.prePrice / 100}}</text>
+              <text class="pre-price"><text class="currency">￥</text>{{item.prePrice / 100}}</text>
             </view>
             <view class="flex flex-s-b flex-a-c padding-lr-8">
               <view class="price-wraper">
@@ -154,19 +156,27 @@
         <image :src="posterImagePath"
                style="width: 100%; height: 100%;" />
       </view>
-      <view class="poster-btn"
-            v-if="posterImagePath"
+      <view class="share-btn-group" v-if="posterImagePath">
+        <button open-type='share' class="poster-btn">
+          <uni-icons type="weixin"
+                    color="#333"
+                    size="22" />
+          <text>分享好友</text>
+        </button>
+        <view class="poster-btn"
             @click.stop="savePoster">
         <uni-icons type="download"
-                   color="#fff"
-                   size="18" />
-        <text>保存</text>
+                   color="#333"
+                   size="22" />
+        <text>保存海报</text>
+      </view>
       </view>
     </view>
     <get-user-info-modal v-if="isGetUserInfoModalShow"
                          @cancel="handleCancelGetUserModalShow"
                          @confirm="handleGetUserInfoModalConfirm" />
     <official-account></official-account>
+    <pre-loading :show='isPreLoadingShow' />
   </view>
 </template>
 <script>
@@ -180,12 +190,13 @@
   	showSuccess,
   	navigateTo,
   	authorize,
-    switchTab,
-    redirectTo,
+  	switchTab,
+  	redirectTo,
   } from '../util/uniApi'
   import getUserInfoModal from '../components/getUserInfoModal'
   import TimeTask from '../util/timeTask'
   import parser from '../components/jyf-parser/jyf-parser'
+  import preLoading from '../components/preLoading'
 
   const { mapMutations: userMutations } = createNamespacedHelpers('user')
   const Cumtom = require('../static/cumtom')
@@ -197,6 +208,7 @@
   		uniIcons,
   		getUserInfoModal,
   		parser,
+  		preLoading,
   	},
   	data() {
   		return {
@@ -250,8 +262,9 @@
   			isGetUserInfoModalShow: false,
   			randomHeaders: [],
   			randomHeaderTimer: null,
-        userInfoConfirmFn: function() {},
-        recomendList: []
+  			userInfoConfirmFn: function() {},
+  			recomendList: [],
+  			isPreLoadingShow: true,
   		}
   	},
   	computed: {
@@ -272,9 +285,9 @@
   				result[key] = value
   				return result
   			}, {})
-      },
-      convertRecomendList() {
-        return this.recomendList.map((item) => {
+  		},
+  		convertRecomendList() {
+  			return this.recomendList.map((item) => {
   				const encodeUrl = imgEncodeUrl(item.coupon_img)
   				const isExpired = this.checkIsExpired(item.expiredTime)
   				item = {
@@ -284,14 +297,14 @@
   				}
   				return item
   			})
-      },
+  		},
   		goodsNavButtonGroup() {
   			const text = +this.goodInfo.type === 1 ? '送货上门' : '立即抢购'
   			return [
   				{
   					text,
-  					backgroundColor: '#AD2532',
-  					color: '#fff',
+  					backgroundColor: '#FBDE20',
+  					color: '#333',
   				},
   			]
   		},
@@ -428,7 +441,13 @@
   					dataToQuery({
   						nickName: encodeURIComponent(nickName),
   						headImg: encodeURIComponent(headImg),
-  					})
+  					}),
+  				{
+  					header: {
+  						showLoading: true,
+  						hideLoading: true,
+  					},
+  				}
   			)
   			if (+resp.code !== 200) return Promise.reject()
   		},
@@ -640,55 +659,68 @@
   			navigateTo({
   				url: 'checkout' + dataToQuery({ id }),
   			})
-      },
-      async getRecommendGoods() {
-        const { openid, location } = this.user
-        const { adcode } = location
+  		},
+  		async getRecommendGoods() {
+  			const { openid, location } = this.user
+  			const { adcode } = location
 
-        if (!openid || !adcode) this.recomendList = []
+  			if (!openid || !adcode) this.recomendList = []
   			const res = await Api.getRecommendGoods({
   				adcode,
-        })
-        if (!Array.isArray(res)) return []
-  			const goods =  res.map(item => {
-          return {
-            ...item,
-            id: item.coupon_id,
-            expiredTime: item.end_date,
-            title: item.coupon_display_name,
-            price: item.realcost,
-            prePrice: item.amount
-          }
-        })
+  			})
+  			if (!Array.isArray(res)) return []
+  			const goods = res.map((item) => {
+  				return {
+  					...item,
+  					id: item.coupon_id,
+  					expiredTime: item.end_date,
+  					title: item.coupon_display_name,
+  					price: item.realcost,
+  					prePrice: item.amount,
+  				}
+  			})
   			this.recomendList = goods
-      },
-      redirectToDetail(item) {
-        if (item.isExpired) return
-        const query = dataToQuery({
-          id: item.id
-        })
-        const url = `goodDetail${query}`
-        redirectTo({
-          url
-        })
-      },
-      checkIsExpired(time) {
+  		},
+  		redirectToDetail(item) {
+  			if (item.isExpired) return
+  			const query = dataToQuery({
+  				id: item.id,
+  			})
+  			const url = `goodDetail${query}`
+  			redirectTo({
+  				url,
+  			})
+  		},
+  		checkIsExpired(time) {
   			const now = new Date().getTime()
   			const expiredTime = new Date(time).getTime()
   			return expiredTime < now ? true : false
-      },
+  		},
   	},
-  	mounted() {},
-  	onLoad({ id }) {
+  	async onLoad({ id }) {
+  		this.isPreLoadingShow = true
   		this.id = id
-  		this.getGoodInfos()
-      this.getRandomHeader()
-      this.getRecommendGoods()
+  		await this.getGoodInfos()
+  		await this.getRandomHeader()
+  		await this.getRecommendGoods()
+  		timeTask.run(() => {
+  			this.isPreLoadingShow = false
+  		}, 1000)
   	},
   	onUnload() {
   		clearInterval(this.randomHeaderTimer)
+  	},
+    onShareAppMessage(res) {
+      if (res.from === 'button') {
+        const {id , posterImagePath: imageUrl} = this
+        // 来自页面内转发按钮
+        return {
+          path: `/pages/goodDetail?id=${id}`,
+          imageUrl
+        }
+      }
     },
-    watch: {
+  	watch: {
   		user: {
   			deep: true,
   			handler(val) {
@@ -701,6 +733,7 @@
 <style scoped lang="scss">
   @import '../styles/var.scss';
   @import '../styles/mixin.scss';
+  @import '../styles/wxnormalize.scss';
 
   .tab-wraper {
   	box-sizing: border-box;
@@ -712,7 +745,7 @@
   	text-align: center;
   	background: #fff;
   	border-right: borderStyle();
-    &.active {
+  	&.active {
   		color: $themeColor;
   	}
   	&:last-child {
@@ -724,7 +757,7 @@
   	.banner-wraper {
   		width: 100%;
   		height: 0;
-  		padding-top: 80%;
+  		padding-top: 54%;
   		background-size: 100% 100%;
   		background-repeat: no-repeat;
   	}
@@ -791,17 +824,17 @@
   .recomend {
   	@extend .border-bottom;
   	box-sizing: border-box;
-  	padding: 28upx;
-    .t {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      &::before, &::after{
-        content: '-';
-        margin: 0 12upx;
-      }
-    }
-    
+  	padding: 20upx;
+  	.t {
+  		display: flex;
+  		align-items: center;
+  		justify-content: center;
+  		&::before,
+  		&::after {
+  			content: '-';
+  			margin: 0 12upx;
+  		}
+  	}
   }
   .border-bottom {
   	border-bottom: borderStyle();
@@ -811,7 +844,7 @@
   	align-items: center;
   	.realcost {
   		font-size: 40upx;
-  		color: $themeColor;
+  		color: $themePriceColor;
   		vertical-align: baseline;
   		&::before {
   			content: '￥';
@@ -843,7 +876,7 @@
   	line-height: 42upx;
   	font-size: 24upx;
   	padding: 0 20upx;
-  	color: #fff;
+  	color: $themeFontColor;
   	border-radius: 12upx;
   	display: flex;
   	align-items: center;
@@ -867,22 +900,29 @@
   		overflow: hidden;
   	}
   }
+  .share-btn-group{
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: #fff;
+    border-radius: 40upx 40upx 0 0;
+    padding: 30upx 60upx;
+    box-sizing: border-box;
+    width: 100%;
+  }
   .poster-btn {
-  	display: flex;
-  	position: absolute;
-  	bottom: 40upx;
-  	left: 50%;
-  	transform: translateX(-50%);
-  	background: $themeColor;
-  	color: #fff;
-  	width: 500rpx;
+    display: flex;
+    flex-flow: column;
   	font-size: 32upx;
-  	line-height: 96upx;
   	justify-content: center;
   	align-items: center;
   	border-radius: 44upx;
+    background: none;
+    overflow: initial;
   	text {
-  		margin-left: 20upx;
+  		margin-top: 20upx;
   	}
   }
   .headImg-wraper {
@@ -926,16 +966,15 @@
   			margin-top: 20upx;
   			width: 48%;
   			margin-right: 4%;
-  			padding-bottom: 20upx;
+        height: 380upx;
   			background: #fff;
-  			height: 480upx;
   			&:nth-child(2n) {
   				margin-right: 0;
   			}
   			.image-wraper {
   				overflow: hidden;
   				width: 100%;
-  				height: 240upx;
+  				height: 200upx;
   				position: relative;
   				image {
   					width: 100%;
@@ -971,7 +1010,6 @@
   			}
   			.good-title {
   				padding: 0 16upx;
-  				margin-top: 24upx;
   				font-size: 28upx;
   				color: #333;
   				height: 88upx;
@@ -984,7 +1022,7 @@
   				align-items: baseline;
   				.price {
   					font-size: 32upx;
-  					color: $themeColor;
+  					color: $themePriceColor;
   					&::before {
   						content: '￥';
   						font-size: 24upx;

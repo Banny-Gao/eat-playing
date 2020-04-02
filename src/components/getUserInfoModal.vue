@@ -63,7 +63,7 @@
       border-top: borderStyle();
     }
     .primary{
-      color: #fff;
+      color: $themeFontColor;
       background: $themeColor;
       border-top: 1px solid $themeColor;
     }

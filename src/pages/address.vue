@@ -17,8 +17,8 @@
                @click="handleEditAddress(item)"></image>
         <uni-icons class="trash"
                    type="trash"
-                   color="#AD2532"
-                   size="22"
+                   color="#FBDE20"
+                   size="20"
                    @click.stop="handleDeleteAddress(item)" />
       </view>
       <image class="nodata" v-if="addressList.length === 0" src="https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/img/noaddress.png">
@@ -27,6 +27,7 @@
       <view class="new-list-button"
             @click="handleNewAddress">新建地址</view>
     </view>
+    <pre-loading :show='isPreLoadingShow'/>
   </view>
 </template>
 <script>
@@ -37,14 +38,20 @@
   	navigateTo,
   	showModal,
   } from '../util/uniApi'
+  import TimeTask from '../util/timeTask'
+  import preLoading from '../components/preLoading'
+
+  const timeTask = new TimeTask()
 
   export default {
   	components: {
-  		uniIcons,
+      uniIcons,
+      preLoading,
   	},
   	data() {
   		return {
-  			addressList: [],
+        addressList: [],
+        isPreLoadingShow: true 
   		}
   	},
   	computed: {
@@ -73,8 +80,14 @@
   		},
   	},
   	onShow() {
-  		this.getAddressList()
-  	},
+      this.getAddressList()
+    },
+    onLoad() {
+      this.isPreLoadingShow = true
+      timeTask.run(() => {
+        this.isPreLoadingShow = false
+      }, 1000)
+    }
   }
 </script>
 <style scoped lang="scss">
@@ -90,7 +103,7 @@
   }
   .new-list-button {
   	background: $themeColor;
-  	color: #fff;
+  	color: $themeFontColor;
   	font-size: 32upx;
   	text-align: center;
   	line-height: 100upx;
@@ -109,7 +122,7 @@
   		&::before {
   			content: '默认';
   			background: $themeColor;
-  			color: #fff;
+  			color: $themeFontColor;
   			font-size: 20upx;
   			padding: 0 8upx;
   			line-height: 40upx;
@@ -127,7 +140,7 @@
   		width: 48upx;
   		height: 48upx;
   		position: absolute;
-  		right: 20upx;
+  		right: 18upx;
   		top: 26%;
   		transform: translateY(-50%);
   	}

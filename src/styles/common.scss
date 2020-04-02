@@ -28,6 +28,8 @@ scroll-view {
   flex: 1;
   overflow: hidden;
   position: relative;
+  display: flex;
+  flex-flow: column;
 }
 
 .content {

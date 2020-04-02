@@ -10,6 +10,7 @@
           url: 'goodDetail' + dataToQuery({ id })
         })
       }
+      uni.hideTabBar()
     },
     onShow: function() {
     },

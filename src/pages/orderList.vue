@@ -1,7 +1,7 @@
 <template>
   <view class="page">
     <view class="tab-wraper flex flex-a-c">
-      <view class="flex-1 font-16 tab-item"
+      <view class="flex-1 tab-item"
             :class="item.status === status ? 'active': ''"
             v-for="item of orderTabList"
             :key="item.status"
@@ -38,6 +38,7 @@
           </view>
         </view>
       </view>
+      <pre-loading :show='isPreLoadingShow'/>
     </scroll-view>
   </view>
 </template>
@@ -46,9 +47,15 @@
   import { navigateTo } from '../util/uniApi'
   import { dataToQuery } from '../util/util'
   import dayjs from 'dayjs'
+  import TimeTask from '../util/timeTask'
+  import preLoading from '../components/preLoading'
+
+  const timeTask = new TimeTask()
 
   export default {
-  	components: {},
+  	components: {
+      preLoading
+    },
   	data() {
   		return {
   			orderTabList: [
@@ -70,7 +77,8 @@
   				},
   			],
   			status: '-1',
-  			orderList: [],
+        orderList: [],
+        isPreLoadingShow: true,
   		}
   	},
   	computed: {},
@@ -105,8 +113,12 @@
   			uni.setStorageSync('goodInfo', { ...resp })
   		},
   	},
-  	onShow() {
-  		this.getOrderList()
+  	async onShow() {
+      this.isPreLoadingShow = true
+      await this.getOrderList()
+      timeTask.run(() => {
+        this.isPreLoadingShow = false
+      }, 1000)
   	},
   	async onPullDownRefresh() {},
   	onLoad({ status }) {
@@ -124,7 +136,7 @@
   		transition: all 0.2s linear;
   	}
   	.active {
-  		color: $themeColor;
+  		font-size: 32upx;
   	}
   }
   .action-card-wraper {
@@ -137,11 +149,11 @@
   		padding: 20upx;
   		border-radius: 20upx;
   		.status-text {
-  			color: $themeColor;
+  			// color: $themePriceColor;
   		}
   		.btn {
   			line-height: 48upx;
-  			color: #fff;
+  			color: $themeFontColor;
   			font-size: 24upx;
   			background: $themeColor;
   			border-radius: 8upx;
@@ -158,10 +170,10 @@
   	}
   }
   .price {
-  	color: $themeColor;
+  	color: $themePriceColor;
   	&::before {
   		content: '￥';
-  		font-size: 24upx;
+  		font-size: 20upx;
   	}
   }
 </style>

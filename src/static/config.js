@@ -2,7 +2,7 @@
 // dev: https://nshare.store/hb/wx/mini
 // product: 
 
-const baseUrl = process.env.NODE_ENV === 'development' ? 'http://rap2.taobao.org:38080/app/mock/245931/wx/mini' : require('./cumtom').RequestUrl
+const baseUrl = process.env.NODE_ENV === 'development' ? 'https://nshare.store/hb/wx/mini' : require('./cumtom').RequestUrl
 
 // Ajax统一状态码
 const STATUS_CODE_MAP = {

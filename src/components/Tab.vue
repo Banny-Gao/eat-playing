@@ -80,15 +80,13 @@ const { mapMutations: homeMutations } = createNamespacedHelpers("home")
   .__tab-wraper {
   	width: 100%;
   	overflow-x: auto;
-  	color: #fff;
+  	color: $themeFontColor;
   	font-size: 28upx;
-  	background: $themeColor;
   	line-height: 60upx;
   	height: 80upx;
   	display: flex;
   	align-items: center;
   	.tab-list {
-  		background: $themeColor;
   		display: flex;
   		flex-wrap: nowrap;
   		.tab-item {
@@ -103,8 +101,7 @@ const { mapMutations: homeMutations } = createNamespacedHelpers("home")
           transition: all .2s linear;
         }
   		  text.active {
-  				color: $themeColor;
-  				background: #fff;
+  				font-size: 32upx;
   			}
   		}
   	}

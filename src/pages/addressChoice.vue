@@ -6,7 +6,7 @@
             v-for="item of addressList"
             :key="item.id"
             @click="handleChoiced(item)">
-        <uni-icons class="choiced-icon" type='circle-filled' color='#AD2532' v-if="user.choicedAddress.id === item.id"></uni-icons>
+        <uni-icons class="choiced-icon" type='circle-filled' color='#FBDE20' v-if="user.choicedAddress.id === item.id"></uni-icons>
         <view class="flex flex-a-c"
               :class="item.defaultFlag === 1 ? 'default': ''">
           <view class="margin-right-10">{{item.userName}}</view>
@@ -20,6 +20,7 @@
       <view class="new-list-button"
             @click="handleNewAddress">新建地址</view>
     </view>
+    <pre-loading :show='isPreLoadingShow'/>
   </view>
 </template>
 <script>
@@ -29,6 +30,7 @@
   import { navigateBack, navigateTo } from '../util/uniApi'
   import { dataToQuery } from '../util/util'
   import TimeTask from '../util/timeTask'
+  import preLoading from '../components/preLoading'
 
   const { mapMutations: userMutations } = createNamespacedHelpers('user')
 
@@ -36,11 +38,13 @@
 
   export default {
   	components: {
-  		uniIcons,
+      uniIcons,
+      preLoading,
   	},
   	data() {
   		return {
         addressList: [],
+        isPreLoadingShow: true
   		}
   	},
   	computed: {
@@ -68,8 +72,12 @@
   			})
   		},
   	},
-  	onShow() {
-  		this.getAddressList()
+  	async onShow() {
+  		this.isPreLoadingShow = true
+      await this.getAddressList()
+      timeTask.run(() => {
+        this.isPreLoadingShow = false
+      }, 1000)
   	},
   }
 </script>

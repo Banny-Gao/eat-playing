@@ -13,10 +13,10 @@
               </view>
               <view class="color-999">{{user.choicedAddress.address}} {{user.choicedAddress.addressInfo}}</view>
             </view>
-            <uni-icons class="margin-left-10" type='arrowright' color='#AD2532'></uni-icons>
+            <uni-icons class="margin-left-10" type='arrowright' color='#FBDE20'></uni-icons>
           </view>
           <view v-else class="padding-tb-10 font-15 flex flex-a-c flex-s-c" @click="handleChoiceAddress">
-            <uni-icons class="margin-right-6" type='plus-filled' color="#AD2532" />
+            <uni-icons class="margin-right-6" type='plus-filled' color="#FBDE20" />
             <text class="color-999">去创建收货地址</text>
           </view>
           <view class="flex flex-a-c margin-top-10">
@@ -24,8 +24,8 @@
               <image class="icon-time" src='https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/time-icon.png' />
               <text class="margin-left-10">送达时间</text>
             </view>
-            <text style="color: #AD2532">尽快送达</text>
-            <uni-icons class="margin-left-10" type='arrowright' color='#AD2532' />
+            <text style="color: #FBDE20">尽快送达</text>
+            <uni-icons class="margin-left-10" type='arrowright' color='#FBDE20' />
           </view>
         </view>
       </view>
@@ -52,14 +52,14 @@
           <view class="action-panel flex flex-a-c">
             <uni-icons
               type="minus-filled"
-              color="#AD2532"
+              color="#FBDE20"
               size="20"
               @click="handleMinus"
             />
             <text class="padding-lr-10">{{ goodCount }}</text>
             <uni-icons
               type="plus-filled"
-              color="#AD2532"
+              color="#FBDE20"
               size="20"
               @click="handlePlus"
             />
@@ -94,13 +94,14 @@
             size="20"
           />
           <text class="flex-1">微信支付</text>
-          <uni-icons type="checkbox-filled" color="#AD2532" size="20" />
+          <uni-icons type="checkbox-filled" color="#FBDE20" size="20" />
         </view>
       </view>
     </view>
     <view class="action-card-wraper">
       <view class="checkout-button" @click="handleCheckout">{{checkoutText}}</view>
     </view>
+    <pre-loading :show='isPreLoadingShow'/>
   </scroll-view>
 </template>
 <script>
@@ -111,6 +112,7 @@ import uniIcons from "@dcloudio/uni-ui/lib/uni-icons/uni-icons"
 import { mapState, createNamespacedHelpers } from "vuex"
 import { getUserInfo, showError, showSuccess, reLaunch, navigateTo } from "../util/uniApi"
 import TimeTask from "../util/timeTask"
+import preLoading from '../components/preLoading'
 
 const { mapMutations: userMutations } = createNamespacedHelpers("user")
 const Cumtom = require("../static/cumtom")
@@ -119,13 +121,15 @@ const timeTask = new TimeTask()
 
 export default {
   components: {
-    uniIcons
+    uniIcons,
+    preLoading
   },
   data() {
     return {
       id: '',
       goodInfo: {},
       goodCount: 1,
+      isPreLoadingShow: true,
     }
   },
   computed: {
@@ -229,8 +233,12 @@ export default {
       })
     },
   },
-  mounted() {
+  async onShow() {
     this.setTitle()
+    this.isPreLoadingShow = true
+    timeTask.run(() => {
+      this.isPreLoadingShow = false
+    }, 1000)
   },
   onLoad({ id }) {
     this.id = id
@@ -272,7 +280,7 @@ export default {
 .good-wraper {
   image {
     width: 140upx;
-    height: 112upx;
+    height: 82upx;
     margin-right: 20upx;
     border-radius: 6upx;
   }
@@ -284,7 +292,7 @@ export default {
 }
 .price {
   font-size: 32upx;
-  color: $themeColor;
+  color: $themePriceColor;
   &::before {
     content: "￥";
     font-size: 24upx;
@@ -312,7 +320,7 @@ export default {
 }
 .checkout-button {
   background: $themeColor;
-  color: #fff;
+  color: $themeFontColor;
   font-size: 32upx;
   text-align: center;
   line-height: 100upx;

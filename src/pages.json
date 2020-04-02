@@ -69,11 +69,12 @@
   "subPackages": [],
   "globalStyle": {
     "backgroundColor": "#F8F8F8",
-    "navigationBarBackgroundColor": "#AD2532"
+    "navigationBarBackgroundColor": "#FBDE20",
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#707070",
-    "selectedColor": "#AD2532",
+    "selectedColor": "#FBDE20",
     "backgroundColor": "#F8F8F8",
     "list": [
       {

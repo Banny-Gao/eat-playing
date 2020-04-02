@@ -4,14 +4,14 @@
           v-if='user.userInfo.avatarUrl'>
       <image class="avatar"
              :src="user.userInfo.avatarUrl" />
-      <text class="color-fff margin-left-10">{{user.userInfo.nickName}}</text>
+      <text class="nick-name margin-left-10">{{user.userInfo.nickName}}</text>
     </view>
     <view class="action-card-wraper margin-top-15">
       <view class="action-card">
         <view class="flex flex-a-c"
               @click="handleOrderTabClick('-1')">
           <text class="flex-1">我的优惠券</text>
-          <text class="color-999 font-12 margin-right-4">全部</text>
+          <text class="font-12 margin-right-4">全部</text>
           <uni-icons type='arrowright'
                      color='999'
                      size='14' />
@@ -23,7 +23,7 @@
                 @click="handleOrderTabClick(item.status)">
             <image class="tab-icon"
                    :src="item.icon" />
-            <text class="color-999 font-12 margin-top-6">{{item.title}}</text>
+            <text class="font-12 margin-top-6">{{item.title}}</text>
           </view>
         </view>
       </view>
@@ -43,6 +43,7 @@
     <get-user-info-modal v-if="isGetUserInfoModalShow"
                          @cancel="handleCancelGetUserModalShow"
                          @confirm="handleGetUserInfoModalConfirm" />
+    <pre-loading :show='isPreLoadingShow'/>
   </view>
 </template>
 <script>
@@ -52,6 +53,10 @@
   import { mapState, createNamespacedHelpers } from 'vuex'
   import { navigateTo, switchTab } from '../util/uniApi'
   import getUserInfoModal from '../components/getUserInfoModal'
+  import TimeTask from '../util/timeTask'
+  import preLoading from '../components/preLoading'
+
+  const timeTask = new TimeTask()
 
   const {
   	mapMutations: userMutations,
@@ -63,7 +68,8 @@
   export default {
   	components: {
   		uniIcons,
-  		getUserInfoModal,
+      getUserInfoModal,
+      preLoading,
   	},
   	data() {
   		return {
@@ -94,7 +100,8 @@
   						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/yiguoqidingdan.png',
   				},
   			],
-  			tabList: [],
+        tabList: [],
+        isPreLoadingShow: true,
   		}
   	},
   	computed: {
@@ -170,8 +177,12 @@
   			if (+resp.code !== 200) return Promise.reject()
   		},
   	},
-  	mounted() {
-  		this.getCategories()
+  	async onLoad() {
+      this.isPreLoadingShow = true
+      await this.getCategories()
+      timeTask.run(() => {
+        this.isPreLoadingShow = false
+      }, 1000)
   	},
   	onShow() {
   		this.isGetUserInfoModalShow = this.user.userInfo.avatarUrl ? false : true
@@ -229,5 +240,8 @@
   	height: 140upx;
   	border-radius: 50%;
   	border: 4upx solid #fff;
+  }
+  .nick-name {
+    color: $themeFontColor;
   }
 </style>

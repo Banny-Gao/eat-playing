@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <view class="page">
     <view class="flex padding-tb-6 border-bottom tab-wraper">
       <view
         class="tab-item flex-1"
@@ -83,7 +83,8 @@
         {{ item.title }}
       </view>
     </view>
-  </div>
+    <pre-loading :show='isPreLoadingShow'/>
+  </view>
 </template>
 <script>
 import { mapState, createNamespacedHelpers } from "vuex"
@@ -92,6 +93,7 @@ import pinyin from "pinyin"
 import { navigateBack } from "../util/uniApi"
 import Task from '../util/timeTask'
 import { throttle, debounce } from 'lodash'
+import preLoading from '../components/preLoading'
 
 const { mapActions: userActions } = createNamespacedHelpers("user")
 
@@ -196,6 +198,9 @@ const citySearch = debounce(function (q, list) {
 }, 600)
 
 export default {
+  components: {
+    preLoading,
+  },
   data() {
     return {
       tabList: [
@@ -219,7 +224,8 @@ export default {
       },
       inputValue: "",
       isInputFocus: false,
-      searchAddress: ''
+      searchAddress: '',
+      isPreLoadingShow: true,
     }
   },
   computed: {
@@ -389,15 +395,17 @@ export default {
       await this.getCurrentPosition({ address })
 
       if (this.addressStatus === 0) {
-        uni.showModal({
-          content: '是否需要当前城市下属地区',
-          cancelText: '否',
-          confirmText: '是',
-          success: ({ confirm, cancel }) => {
-            if (confirm) this.handleTab({ status: 1 })
-            if (cancel) navigateBack()
-          }
-        })
+        this.handleTab({ status: 1 })
+        // this.getCurrentPosition({ address: cacheAddress })
+        // uni.showModal({
+        //   content: '是否需要当前城市下属地区',
+        //   cancelText: '否',
+        //   confirmText: '是',
+        //   success: ({ confirm, cancel }) => {
+        //     if (confirm) this.handleTab({ status: 1 })
+        //     if (cancel) navigateBack()
+        //   }
+        // })
       } else navigateBack()
     },
     checkAddressStatus(address) {
@@ -453,6 +461,7 @@ export default {
     }
   },
   async mounted() {
+    this.isPreLoadingShow = true
     await this.getCurrentPosition(this.user.location)
     this.tabStatus = this.addressStatus
 
@@ -461,6 +470,9 @@ export default {
         this.scrollViewHeight = height
       }).exec()
     }, 500)
+    timeTask.run(() => {
+      this.isPreLoadingShow = false
+    }, 1000)
   },
   watch: {
     tabStatus() {
@@ -491,12 +503,12 @@ export default {
   background: #fff;
 }
 .tab-item {
-  font-size: 36upx;
+  font-size: 30upx;
   line-height: 72upx;
   transition: all 0.2s linear;
   text-align: center;
   &.active {
-    color: $themeColor;
+    font-size: 36upx;
   }
   &:first-child {
     border-right: borderStyle();
@@ -513,7 +525,7 @@ export default {
   padding: 0 $themePadding;
   font-size: 28upx;
   line-height: 64upx;
-  color: $themeColor;
+  color: $themeFontColor;
 }
 .panel-item-wraper {
   padding-bottom: 30upx;
@@ -533,7 +545,8 @@ export default {
     transition: all 0.2s linear;
     &.active {
       background: $themeColor;
-      color: #fff;
+      color: $themeFontColor;
+      border: none;
     }
   }
 }
@@ -541,7 +554,6 @@ export default {
 .city-item {
   box-sizing: border-box;
   padding: 0 $themePadding;
-  font-size: 32upx;
   line-height: 76upx;
   border-bottom: borderStyle();
   transition: all 0.2s linear;
@@ -565,11 +577,10 @@ export default {
     line-height: 38upx;
     border-radius: 8upx;
     font-size: 28upx;
-    color: #656565;
     transition: all 0.2s linear;
     padding: 0 8upx;
+    color: $themeFontColor;
     &.active {
-      color: #fff;
       background: $themeColor;
     }
   }

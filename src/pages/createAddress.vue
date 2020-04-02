@@ -12,7 +12,7 @@
           :value="addressParams.address"
           placeholder="点击选择收货地址"
         />
-        <uni-icons type="arrowright" color="#AD2532" />
+        <uni-icons type="arrowright" color="#333" />
       </view>
       <view class="flex flex-a-c border-bottom action-card-wraper input-item">
         <view class="required margin-right-10">详细地址</view>
@@ -46,7 +46,7 @@
       </view>
       <view class="flex flex-a-c border-bottom action-card-wraper input-item">
         <view class="flex-1">设为默认地址</view>
-        <switch :checked="addressDeafultChecked" color="#AD2532" @change="handleInput('defaultFlag', $event)"/>
+        <switch :checked="addressDeafultChecked" color="#FBDE20" @change="handleInput('defaultFlag', $event)"/>
       </view>
     </view>
     <view class="action-card-wraper">
@@ -189,7 +189,7 @@ export default {
 }
 .new-list-button {
   background: $themeColor;
-  color: #fff;
+  color: $themeFontColor;
   font-size: 32upx;
   text-align: center;
   line-height: 100upx;
@@ -204,18 +204,6 @@ export default {
   position: relative;
   border-bottom: borderStyle();
   padding-right: 100upx;
-  .default {
-    &::before {
-      content: "默认";
-      background: $themeColor;
-      color: #fff;
-      font-size: 20upx;
-      padding: 0 8upx;
-      line-height: 40upx;
-      border-radius: 4upx;
-      margin-right: 20upx;
-    }
-  }
   &:first-child {
     margin-top: 0;
   }
@@ -239,7 +227,7 @@ export default {
   .required {
     &::before {
       content: "*";
-      color: $themeColor;
+      color: $themePriceColor;
       position: absolute;
       left: 20upx;
       top: 50%;

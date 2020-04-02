@@ -1,11 +1,11 @@
 <template>
-  <view class="page">
+  <view class="page" :style="{backgroundImage: `url(${pageBg})`}">
     <CustomHeader @search="handleSearch" :q='goodsParams.q' @input="handleSearchInput" @clear='clearQ'/>
     <tab :list='tabList'
          @change='handdleTabChange' />
     <scroll-view scroll-y
                  @scrolltolower='handleLoadMore'>
-      <view class="goods-wraper full-h">
+      <view class="goods-wraper">
         <view class="goods-item"
               v-for="item of convertedGoods"
               :key="item.id"
@@ -20,7 +20,7 @@
           </view>
           <view class="good-title ellipsis-2" :class="item.isExpired ? 'disable': ''">{{item.title}}</view>
           <view class="padding-lr-8">
-            <text class="pre-price margin-top-10"><text class="currency">￥</text>{{item.prePrice / 100}}</text>
+            <text class="pre-price"><text class="currency">￥</text>{{item.prePrice / 100}}</text>
           </view>
           <view class="flex flex-s-b flex-a-c padding-lr-8">
             <view class="price-wraper">
@@ -35,9 +35,10 @@
         <text class="color-999" @click="handleOpenFile('https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/%E7%94%A8%E6%88%B7%E9%9A%90%E7%A7%81%E6%9D%A1%E6%AC%BE.doc?sign=19dfd33b08a22d95373a0daff27f53d3&t=1585674009')"> · 用户隐私条款</text>
         <text class="color-999" @click="handleOpenFile('https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/%E5%B9%B3%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE.doc?sign=380731ecc7736845c496e0ab5fe26ecc&t=1585674196')"> · 平台服务协议 · </text>
       </view>
-      <view class="text-center color-999 padding-bottom-10">大邑微生活旗下-优选商城</view>
+      <view class="text-center color-999 padding-bottom-10">人人有吧-优选商城 </view>
       <official-account></official-account>
     </scroll-view> 
+    <pre-loading :show='isPreLoadingShow'/>
   </view>
 </template>
 <script>
@@ -48,14 +49,21 @@
   import { showSuccess, navigateTo } from '../util/uniApi'
   import { imgEncodeUrl } from '../util/url'
   import { dataToQuery } from '../util/util'
+  import TimeTask from '../util/timeTask'
+  import preLoading from '../components/preLoading'
+
+  const { backgroundImage: pageBg } = require('../static/cumtom').Index
+  const timeTask = new TimeTask()
 
   export default {
   	components: {
   		CustomHeader,
-  		Tab,
+      Tab,
+      preLoading,
   	},
   	data() {
   		return {
+        pageBg,
   			tabList: [],
   			goods: [],
   			goodsStack: [],
@@ -67,7 +75,8 @@
   				categoryId: '',
   				q: '',
         },
-        pageIndexes: {}
+        pageIndexes: {},
+        isPreLoadingShow: true 
   		}
   	},
   	computed: {
@@ -224,8 +233,12 @@
         if (errMsg === "downloadFile:ok") uni.openDocument({ filePath })
       }
   	},
-  	mounted() {
-      this.getCategories()
+  	async onLoad() {
+      this.isPreLoadingShow = true
+      await this.getCategories()
+      timeTask.run(() => {
+        this.isPreLoadingShow = false
+      }, 1000)
     },
   	async onPullDownRefresh() {
   		const params = (this.goodsParams = {
@@ -249,29 +262,34 @@
   }
 </script>
 <style scoped lang="scss">
+  .page {
+    background-color: #fff;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: left top;
+  }
   .goods-wraper {
   	box-sizing: border-box;
   	flex-wrap: wrap;
   	padding: 0 20upx;
     display: flex;
-    &.full-h {
-      height: 100%;
-    }
+    min-height: calc(100% - 416upx);
+    padding-bottom: 60upx;
+    margin-top: 100upx;
   	.goods-item {
       @extend .boxshadow;
   		margin-top: 20upx;
   		width: 48%;
   		margin-right: 4%;
-      padding-bottom: 20upx;
       background: #fff;
-      height: 480upx;
+      height: 380upx;
   		&:nth-child(2n) {
   			margin-right: 0;
   		}
   		.image-wraper {
   			overflow: hidden;
   			width: 100%;
-  			height: 240upx;
+  			height: 200upx;
   			position: relative;
   			image {
   				width: 100%;
@@ -307,7 +325,6 @@
   		}
   		.good-title {
   			padding: 0 16upx;
-  			margin-top: 24upx;
   			font-size: 28upx;
   			color: #333;
         height: 88upx;
@@ -320,7 +337,7 @@
         align-items: baseline;
         .price{
           font-size: 32upx;
-          color: $themeColor;
+          color: $themePriceColor;
           &::before{
               content: '￥';
               font-size: 24upx;
@@ -355,19 +372,6 @@
               font-size: 20upx;
           }
         }
-    //   .btn-buy{
-    //     font-size: 28upx;
-    //     width: 140upx;
-    //     text-align: center;
-    //     background: $themeColor;
-    //     color: #fff;
-    //     line-height: 60upx;
-    //     border-radius: 4upx;
-    //     &.disable{
-    //       background: #ececec;
-    //       color: #999;
-    //     }
-    //   }
   	}
   }
 </style>

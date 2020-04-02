@@ -38,7 +38,7 @@
       }}</view>
     </view>
     <view class="action-card margin-top-20" v-if="orderInfo.realMoney">
-      <view class="font-16 font-blod margin-bottom-10">订单支付：￥{{ orderInfo.realMoney }}</view>
+      <view class="font-16 font-blod margin-bottom-10">订单支付：<text class="font-12">￥</text>{{ orderInfo.realMoney }}</view>
       <view class="flex flex-a-c">
         <text class="flex-1">订单编号：</text>
         <text>{{ orderInfo.id }}</text>
@@ -56,7 +56,10 @@
         <text class="font-12">{{ orderInfo.useBeginDate }} 至 {{ orderInfo.useEndDate }}</text>
       </view>
       <view class="margin-top-10 padding-top-10 border-top" v-if="orderInfo.type === 1">
-        <view>收货地址： {{ orderInfo.address }} {{orderInfo.addressInfo}}</view>
+        <view class="flex">
+          <text>收货地址：</text>
+          <view class="flex-1"> {{ orderInfo.address }} {{orderInfo.addressInfo}}</view>
+        </view>
         <view class="flex flex-a-c">
           <text class="flex-1">联系人：</text>
           <text>{{ orderInfo.userName }}</text>
@@ -71,6 +74,7 @@
       <view class="font-blod text-center margin-bottom-10">使用须知</view>
       <parser :html="orderInfo.introText" />
     </view>
+    <pre-loading :show='isPreLoadingShow'/>
   </scroll-view>
 </template>
 <script>
@@ -80,17 +84,23 @@
   import drawQrcode from 'weapp-qrcode'
   import dayjs from 'dayjs'
   import parser from '../components/jyf-parser/jyf-parser'
+  import TimeTask from '../util/timeTask'
+  import preLoading from '../components/preLoading'
+
+  const timeTask = new TimeTask()
 
   export default {
   	components: {
       uniIcons,
       parser,
+      preLoading,
   	},
   	data() {
   		return {
   			orderId: '',
   			orderInfo: {},
-  			goodInfo: {},
+        goodInfo: {},
+        isPreLoadingShow: true,
   		}
   	},
   	computed: {
@@ -138,12 +148,16 @@
         // console.log(data, '已复制到剪切板')
       }
   	},
-  	mounted() {
-  		this.postOrderDetailInfo()
+  	async onShow() {
+      this.isPreLoadingShow = true
+      this.postOrderDetailInfo()
+      timeTask.run(() => {
+        this.isPreLoadingShow = false
+      }, 1000)
   	},
-  	onLoad({ orderId }) {
+  	onLoad({ orderId }) { 
   		this.orderId = orderId
-  		this.goodInfo = uni.getStorageSync('goodInfo')
+      this.goodInfo = uni.getStorageSync('goodInfo')
   	},
   	onUnload() {},
   }
