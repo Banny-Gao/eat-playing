@@ -81,6 +81,7 @@ const { mapMutations: homeMutations } = createNamespacedHelpers("home")
   	width: 100%;
   	overflow-x: auto;
   	color: $themeFontColor;
+    background-color: $themeColor;
   	font-size: 28upx;
   	line-height: 60upx;
   	height: 80upx;

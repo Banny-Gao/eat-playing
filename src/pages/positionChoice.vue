@@ -97,7 +97,7 @@ import preLoading from '../components/preLoading'
 
 const { mapActions: userActions } = createNamespacedHelpers("user")
 
-const PositionChoice = require('../static/cumtom').PositionChoice
+const PositionChoice = require('../static/custom').PositionChoice
 
 const { hotCities = [] } = PositionChoice
 
@@ -363,11 +363,11 @@ export default {
     async getCurrentPosition(location) {
       const { address } = location
       if (address !== this.user.location.address || !uni.getStorageSync("cityList")) await this.getLocationAddress(address || "成都市")
-      this.viewAddress = address
 
       const addressStatus = (this.addressStatus = this.checkAddressStatus(
         address
       ))
+      if (addressStatus === 1) this.viewAddress = address
 
       const hotCity = {
         title: "热门城市",
@@ -473,6 +473,9 @@ export default {
     timeTask.run(() => {
       this.isPreLoadingShow = false
     }, 1500)
+  },
+  async onUnload() {
+    if (this.addressStatus === 0) await this.setLocation(this.viewAddress)
   },
   watch: {
     tabStatus() {

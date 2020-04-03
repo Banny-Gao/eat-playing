@@ -9,7 +9,7 @@ const RequestUrl = "https://nshare.store/hb/wx/mini"
 // 首页是否显示语音搜素 1:显示 0:不显示
 const Index = {
   showSearchVoice: 1,
-  backgroundImage: ''
+  backgroundImage: 'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/indexBg.png?sign=bddd2bd4713216e2b4727d0fab9de013&t=1585827264'
 }
 
 // 选择地区热门城市配置: 完整的中国城市名称（地级市、直辖市）

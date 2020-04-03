@@ -199,7 +199,7 @@
   import preLoading from '../components/preLoading'
 
   const { mapMutations: userMutations } = createNamespacedHelpers('user')
-  const Cumtom = require('../static/cumtom')
+  const Custom = require('../static/custom')
 
   const timeTask = new TimeTask()
 
@@ -466,7 +466,7 @@
   			this.template = {
   				width: '750rpx',
   				height: '1334rpx',
-  				background: Cumtom.posterBg,
+  				background: Custom.posterBg,
   				views: [
   					{
   						type: 'rect',

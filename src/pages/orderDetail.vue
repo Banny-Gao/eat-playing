@@ -19,7 +19,7 @@
       <view class="circle-cover right top"></view>
       <view class="circle-cover left bottom"></view>
       <view class="circle-cover right bottom"></view>
-      <view class="qrcode-wraper">
+      <view class="qrcode-wraper" v-if="shouldCanvasShow">
         <canvas class="margin-top-20"
                 style="width: 200px; height: 200px;"
                 canvas-id="weborderQrcode"></canvas>
@@ -101,6 +101,7 @@
   			orderInfo: {},
         goodInfo: {},
         isPreLoadingShow: true,
+        shouldCanvasShow: false
   		}
   	},
   	computed: {
@@ -150,9 +151,10 @@
   	},
   	async onShow() {
       this.isPreLoadingShow = true
-      this.postOrderDetailInfo()
+      await this.postOrderDetailInfo()
       timeTask.run(() => {
         this.isPreLoadingShow = false
+        this.shouldCanvasShow = true
       }, 1500)
   	},
   	onLoad({ orderId }) { 

@@ -1,11 +1,11 @@
 <template>
-  <view class="page" :style="{backgroundImage: `url(${pageBg})`}">
+  <view class="page">
     <CustomHeader @search="handleSearch" :q='goodsParams.q' @input="handleSearchInput" @clear='clearQ'/>
     <tab :list='tabList'
          @change='handdleTabChange' />
     <scroll-view scroll-y
                  @scrolltolower='handleLoadMore'>
-      <view class="goods-wraper">
+      <view class="goods-wraper" :style="{backgroundImage: `url(${pageBg})`}">
         <view class="goods-item"
               v-for="item of convertedGoods"
               :key="item.id"
@@ -52,7 +52,7 @@
   import TimeTask from '../util/timeTask'
   import preLoading from '../components/preLoading'
 
-  const { backgroundImage: pageBg } = require('../static/cumtom').Index
+  const { backgroundImage: pageBg } = require('../static/custom').Index
   const timeTask = new TimeTask()
 
   export default {
@@ -262,12 +262,6 @@
   }
 </script>
 <style scoped lang="scss">
-  .page {
-    background-color: #f8f8f8;
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    background-position: left top;
-  }
   .goods-wraper {
   	box-sizing: border-box;
   	flex-wrap: wrap;
@@ -275,7 +269,10 @@
     display: flex;
     min-height: calc(100% - 416upx);
     padding-bottom: 60upx;
-    margin-top: 100upx;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: left top;
+    padding-top: 400upx;
   	.goods-item {
       @extend .boxshadow;
   		margin-top: 20upx;

@@ -115,7 +115,7 @@ import TimeTask from "../util/timeTask"
 import preLoading from '../components/preLoading'
 
 const { mapMutations: userMutations } = createNamespacedHelpers("user")
-const Cumtom = require("../static/cumtom")
+const Custom = require("../static/custom")
 
 const timeTask = new TimeTask()
 

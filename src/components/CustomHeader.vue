@@ -125,7 +125,7 @@ import Task from "../util/timeTask"
 
 const { mapActions: userActions } = createNamespacedHelpers("user")
 
-const Index = require('../static/cumtom').Index
+const Index = require('../static/custom').Index
 
 const showSearchVoice = !!Index.showSearchVoice
 
@@ -399,6 +399,7 @@ export default {
   position: relative;
   font-size: 32upx;
   color: $themeFontColor;
+  background-color: $themeColor;
   z-index: 9999;
 }
 .__header {

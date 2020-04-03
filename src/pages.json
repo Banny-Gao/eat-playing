@@ -62,7 +62,7 @@
     {
       "path": "pages/platformInfo",
       "style": {
-        "navigationBarTitleText": "大邑微生活优选商城"
+        "navigationBarTitleText": "人人有吧优选商城"
       }
     }
   ],
@@ -73,8 +73,8 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "color": "#707070",
-    "selectedColor": "#FBDE20",
+    "color": "#333333",
+    "selectedColor": "#333333",
     "backgroundColor": "#F8F8F8",
     "list": [
       {
