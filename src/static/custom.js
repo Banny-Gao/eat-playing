@@ -26,7 +26,7 @@ const PositionChoice = {
 }
 
 // 详情页分享图背景图，颜色或图片地址
-const posterBg = 'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/sharebg.png?sign=90bc6a9cb31cdb03530aab52f6d49abb&t=1585723843'
+const posterBg = 'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/shareBg.png?sign=90bc6a9cb31cdb03530aab52f6d49abb&t=1585723843'
 
 module.exports = {
   RequestUrl,
