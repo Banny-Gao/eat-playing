@@ -56,6 +56,9 @@
   import TimeTask from '../util/timeTask'
   import preLoading from '../components/preLoading'
 
+  const Custom = require('../static/custom')
+  const { CDNUrl } = Custom
+
   const timeTask = new TimeTask()
 
   const {
@@ -79,25 +82,25 @@
   					status: '-1',
   					title: '全部',
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/quanbudingdan.png',
+  						`${CDNUrl}/static/icon/quanbudingdan.png`,
   				},
   				{
   					status: '0',
   					title: '未使用',
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/weishiyongdingdan.png',
+  						`${CDNUrl}/static/icon/weishiyongdingdan.png`,
   				},
   				{
   					status: '1',
   					title: '已使用',
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/yishiyongdingdan.png',
+  						`${CDNUrl}/static/icon/yishiyongdingdan.png`,
   				},
   				{
   					status: '2',
   					title: '已过期',
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/yiguoqidingdan.png',
+  						`${CDNUrl}/static/icon/yiguoqidingdan.png`,
   				},
   			],
         tabList: [],

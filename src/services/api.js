@@ -18,7 +18,7 @@ const mergeRequest = ((request, url) => async(params = {}, queryFormat = queryFo
     result = data || {}
     result.code = code
     response.code = code || status
-    if (code !== 200) throw response
+    if (+code !== 200) throw response
   } catch (error) {
     result = Promise.reject(error)
   }

@@ -21,7 +21,7 @@
           </view>
           <view class="flex flex-a-c margin-top-10">
             <view class="flex-1 flex flex-a-c">
-              <image class="icon-time" src='https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/time-icon.png' />
+              <image class="icon-time" :src='`${CDNUrl}/static/icon/time-icon.png`' />
               <text class="margin-left-10">送达时间</text>
             </view>
             <text style="color: #FBDE20">尽快送达</text>
@@ -77,12 +77,12 @@
     <view class="action-card-wraper margin-top-20">
       <view class="action-card">
         <view class="flex flex-a-c panel-item">
-          <image class="icon" src="https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/hongbao-icon.png"></image>
+          <image class="icon" :src="`${CDNUrl}/static/icon/hongbao-icon.png`"></image>
           <text class="flex-1 color-666">可用红包余额</text>
           <text class="price color-666">0.00</text>
         </view>
         <view class="flex flex-a-c margin-top-20 panel-item">
-          <image class="icon" src="https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/zhifu-icon.png"></image>
+          <image class="icon" :src="`${CDNUrl}/static/icon/zhifu-icon.png`"></image>
           <text class="flex-1 color-666">还需要支付</text>
           <text class="price">{{ totalPrice / 100 }}</text>
         </view>
@@ -116,6 +116,7 @@ import preLoading from '../components/preLoading'
 
 const { mapMutations: userMutations } = createNamespacedHelpers("user")
 const Custom = require("../static/custom")
+const { CDNUrl } = Custom
 
 const timeTask = new TimeTask()
 
@@ -126,6 +127,7 @@ export default {
   },
   data() {
     return {
+      CDNUrl,
       id: '',
       goodInfo: {},
       goodCount: 1,

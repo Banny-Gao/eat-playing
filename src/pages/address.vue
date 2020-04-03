@@ -13,7 +13,7 @@
         <view class="margin-top-8"
               @click="handleEditAddress(item)">{{ item.address }} {{ item.addressInfo }}</view>
         <image class="edit"
-               src="https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/edit-icon.png"
+               :src="`${CDNUrl}/static/icon/edit-icon.png`"
                @click="handleEditAddress(item)"></image>
         <uni-icons class="trash"
                    type="trash"
@@ -21,7 +21,7 @@
                    size="20"
                    @click.stop="handleDeleteAddress(item)" />
       </view>
-      <image class="nodata" v-if="addressList.length === 0" src="https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/img/noaddress.png">
+      <image class="nodata" v-if="addressList.length === 0" :src="`${CDNUrl}/static/img/noaddress.png`">
     </scroll-view>
     <view class="action-card-wraper">
       <view class="new-list-button"
@@ -40,6 +40,8 @@
   } from '../util/uniApi'
   import TimeTask from '../util/timeTask'
   import preLoading from '../components/preLoading'
+  const Custom = require('../static/custom')
+  const { CDNUrl } = Custom
 
   const timeTask = new TimeTask()
 
@@ -50,6 +52,7 @@
   	},
   	data() {
   		return {
+        CDNUrl,
         addressList: [],
         isPreLoadingShow: true 
   		}

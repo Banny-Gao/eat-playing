@@ -50,7 +50,7 @@
               v-if="convertedGood.servicePhone"
               @click="handleMakePhoneCall(convertedGood.servicePhone)">
           <image class="margin-right-4"
-                 src='https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/kefu.png'>
+                 :src='`${CDNUrl}/static/icon/kefu.png`'>
             <text>联系客服</text>
         </view>
       </view>
@@ -110,7 +110,7 @@
               <image :src='item.encodeUrl' />
               <view class="expired-wraper"
                     v-if="item.isExpired">
-                <image src='https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/img/expired.png'>
+                <image :src='`${CDNUrl}/static/img/expired.png`'>
               </view>
               <view class="good-qty">{{item.salesQuantity}}件已售</view>
             </view>
@@ -200,6 +200,7 @@
 
   const { mapMutations: userMutations } = createNamespacedHelpers('user')
   const Custom = require('../static/custom')
+  const { posterBg, CDNUrl } = Custom
 
   const timeTask = new TimeTask()
 
@@ -212,6 +213,7 @@
   	},
   	data() {
   		return {
+        CDNUrl,
   			id: '',
   			viewId: '',
   			tabList: [
@@ -225,7 +227,7 @@
   				{
   					id: 0,
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/detail-shouye-icon.png',
+  						`${CDNUrl}/static/icon/detail-shouye-icon.png`,
   					text: '首页',
   					func: 'handleSwitchTab',
   					args: ['index'],
@@ -233,7 +235,7 @@
   				{
   					id: 0,
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/share-icon.png',
+  						`${CDNUrl}/static/icon/share-icon.png`,
   					text: '分享',
   					func: 'handlePosterShare',
   					args: [],
@@ -241,19 +243,11 @@
   				{
   					id: 0,
   					icon:
-  						'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/detail-user-icon.png',
+  						`${CDNUrl}/static/icon/detail-user-icon.png`,
   					text: '我的',
   					func: 'handleSwitchTab',
   					args: ['user'],
   				},
-  				// {
-  				// 	id: 1,
-  				// 	icon:
-  				// 		'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/kefu.png',
-  				// 	text: '客服',
-  				// 	func: 'handleMakePhoneCall',
-  				// 	args: [],
-  				// },
   			],
   			wxacode: '',
   			template: {},
@@ -466,7 +460,7 @@
   			this.template = {
   				width: '750rpx',
   				height: '1334rpx',
-  				background: Custom.posterBg,
+  				background: posterBg,
   				views: [
   					{
   						type: 'rect',

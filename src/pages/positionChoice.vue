@@ -93,9 +93,13 @@
 
   const { mapActions: userActions } = createNamespacedHelpers('user')
 
-  const PositionChoice = require('../static/custom').PositionChoice
-
-  const { hotCities = [] } = PositionChoice
+  const Custom = require('../static/custom')
+  const {
+  	PositionChoice: {
+      hotCities = []
+    },
+  	CDNUrl,
+  } = Custom
 
   const timeTask = new Task()
 
@@ -220,6 +224,7 @@
   	},
   	data() {
   		return {
+        CDNUrl,
   			tabList: [
   				{ title: '选择城市', status: 0 },
   				{ title: '选择地区', status: 1 },
@@ -237,9 +242,9 @@
   			scrollViewHeight: 0,
   			iconSrc: {
   				clear:
-  					'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/icon_clear.png',
+  					`${CDNUrl}/static/icon/icon_clear.png`,
   				placeholder:
-  					'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/icon_search.png',
+  					`${CDNUrl}/static/icon/icon_search.png`,
   			},
   			inputValue: '',
   			isInputFocus: false,

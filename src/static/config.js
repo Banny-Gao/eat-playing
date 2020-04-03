@@ -10,11 +10,9 @@ const STATUS_CODE_MAP = {
   NOT_LOGIN: 401
 }
 
-const cloudUrl = 'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la'
 
 module.exports =  {
   mapKey: 'PSFBZ-S4WK4-PK4UP-DLSZP-RSK42-4HBDK',
   baseUrl,
-  STATUS_CODE_MAP,
-  cloudUrl
+  STATUS_CODE_MAP
 }

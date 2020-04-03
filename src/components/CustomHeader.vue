@@ -1,5 +1,5 @@
 <template>
-  <view class="header-fix">
+  <view class="header-fix" :class="showBg ? 'show': ''">
     <view class="status_bar" :style="{ height: statusBarHeight + 'px' }">
       <!-- 这里是状态栏 -->
     </view>
@@ -125,7 +125,8 @@ import Task from "../util/timeTask"
 
 const { mapActions: userActions } = createNamespacedHelpers("user")
 
-const Index = require('../static/custom').Index
+const Custom = require('../static/custom')
+const { Index, CDNUrl } = Custom
 
 const showSearchVoice = !!Index.showSearchVoice
 
@@ -143,6 +144,10 @@ export default {
     q: {
       type: String,
       default: ""
+    },
+    showBg: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -157,10 +162,10 @@ export default {
       screenHeight: 0,
       showBackIcon: false,
       iconSrc: {
-        voice: "https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/icon_voice.png",
-        clear: "https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/icon_clear.png",
-        placeholder: "https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/icon_search.png",
-        close: "https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/icon_close.png"
+        voice: `${CDNUrl}/static/icon/icon_voice.png`,
+        clear: `${CDNUrl}/static/icon/icon_clear.png`,
+        placeholder: `${CDNUrl}/static/icon/icon_search.png`,
+        close: `${CDNUrl}/static/icon/icon_close.png`
       },
       inputValue: "",
       isInputFocus: false,
@@ -399,8 +404,12 @@ export default {
   position: relative;
   font-size: 32upx;
   color: $themeFontColor;
-  background-color: $themeColor;
+  background-color: transparent;
+  transition: all .25s linear;
   z-index: 9999;
+  &.show{
+    background-color: $themeColor;
+  }
 }
 .__header {
   @include padding-lr($themePadding);

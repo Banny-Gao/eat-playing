@@ -1,5 +1,5 @@
 <template>
-  <view class="__tab-wraper">
+  <view class="__tab-wraper" :class="showBg ? 'show': ''">
     <view class="tab-list">
       <view class="tab-item"
             v-for="(item, index) of convertList"
@@ -19,7 +19,11 @@ const { mapMutations: homeMutations } = createNamespacedHelpers("home")
   		list: {
   			type: Array,
   			default: [],
-  		},
+      },
+      showBg: {
+        type: Boolean,
+        default: false
+      }
   	},
   	data() {
   		return {
@@ -81,12 +85,17 @@ const { mapMutations: homeMutations } = createNamespacedHelpers("home")
   	width: 100%;
   	overflow-x: auto;
   	color: $themeFontColor;
-    background-color: $themeColor;
   	font-size: 28upx;
   	line-height: 60upx;
   	height: 80upx;
   	display: flex;
   	align-items: center;
+    background-color: transparent;
+    transition: all .25s linear;
+    z-index: 9999;
+    &.show{
+      background-color: $themeColor;
+    }
   	.tab-list {
   		display: flex;
   		flex-wrap: nowrap;

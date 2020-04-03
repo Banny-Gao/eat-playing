@@ -39,7 +39,7 @@
                       @click="address_item_click(swiper_index,index)">
                   <image v-if="selectIndexArr[swiper_index] === index"
                          class="address_item_icon"
-                         src="https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/gou.png"
+                         :src="`${CDNUrl}/static/icon/gou.png`"
                          mode=""></image>
                   {{item.name}}
                 </view>
@@ -57,6 +57,9 @@
 
 <script>
   import cityData from '../lib/city.json'
+  const Custom = require('../static/custom')
+  const { CDNUrl } = Custom
+
   export default {
     props: {
       address: {
@@ -66,6 +69,7 @@
     },
   	data() {
   		return {
+        CDNUrl,
   			isShow: false,
   			isShowMask: false,
   			dataList: ['请选择'],

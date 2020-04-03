@@ -13,7 +13,7 @@
           <view>{{item.phone}}</view>
         </view>
         <view class="margin-top-8">{{item.address}} {{item.addressInfo}}</view>
-        <image class="edit" src='https://7272-rryb-yug5z-1301653930.tcb.qcloud.la/static/icon/edit-icon.png' @click.stop="handleEditAddress(item)"></image>
+        <image class="edit" :src='`${CDNUrl}/static/icon/edit-icon.png`' @click.stop="handleEditAddress(item)"></image>
       </view>
     </scroll-view>
     <view class="action-card-wraper">
@@ -31,6 +31,8 @@
   import { dataToQuery } from '../util/util'
   import TimeTask from '../util/timeTask'
   import preLoading from '../components/preLoading'
+  const Custom = require('../static/custom')
+  const { CDNUrl } = Custom
 
   const { mapMutations: userMutations } = createNamespacedHelpers('user')
 
@@ -43,6 +45,7 @@
   	},
   	data() {
   		return {
+        CDNUrl,
         addressList: [],
         isPreLoadingShow: true
   		}
