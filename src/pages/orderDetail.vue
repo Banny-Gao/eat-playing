@@ -38,7 +38,7 @@
       }}</view>
     </view>
     <view class="action-card margin-top-20" v-if="orderInfo.realMoney">
-      <view class="font-16 font-blod margin-bottom-10">订单支付：<text class="font-12">￥</text>{{ orderInfo.realMoney }}</view>
+      <view class="font-16 font-blod margin-bottom-10">订单支付：<text class="font-12">￥</text>{{ orderInfo.realMoney / 100 }}</view>
       <view class="flex flex-a-c">
         <text class="flex-1">订单编号：</text>
         <text>{{ orderInfo.id }}</text>

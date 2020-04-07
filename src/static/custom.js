@@ -4,7 +4,7 @@
 
 
 // 服务器地址
-const RequestUrl = "https://nshare.store/hb/wx/mini"
+const RequestUrl = "https://lairuke.com/hb/wx/mini"
 
 const CDNUrl = 'https://7272-rryb-yug5z-1301653930.tcb.qcloud.la'
 

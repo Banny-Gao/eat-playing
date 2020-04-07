@@ -292,6 +292,7 @@
   	left: 0;
   	top: 0;
   	z-index: 9999;
+    width: 100%;
   }
   .goods-wraper {
   	box-sizing: border-box;
