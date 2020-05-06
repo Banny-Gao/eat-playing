@@ -3,16 +3,21 @@
   import { dataToQuery } from './util/util'
   export default {
     onLaunch: function({ query }) {
-      const { scene } = query
-      if (scene) {
-        const id = decodeURIComponent(scene.substr(8)).split('=').reverse()[0]
+      uni.hideTabBar()
+    },
+    onShow: function() {
+      const { 
+        scene,
+        query
+       } = wx.getLaunchOptionsSync()
+      const isQuery = [1011, 1012, 1013, 1047, 1048, 1049].indexOf(+scene) !== -1
+      console.log(isQuery, query.scene)
+      if (isQuery && query.scene) {
+        const id = decodeURIComponent(query.scene.substr(8)).split('=').reverse()[0]
         navigateTo({
           url: 'goodDetail' + dataToQuery({ id })
         })
       }
-      uni.hideTabBar()
-    },
-    onShow: function() {
     },
     onHide: function() {
     },

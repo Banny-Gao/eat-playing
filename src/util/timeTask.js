@@ -8,7 +8,7 @@ export default class Task {
   initStack() {
     const that = this
     return new Proxy([], {
-      get(target, propKey, receiver) {
+      get(target, propKey) {
         const val = Reflect.get(target, propKey)
         if (propKey === "push") that.shiftStack()
         return val

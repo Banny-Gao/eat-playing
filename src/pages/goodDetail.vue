@@ -819,6 +819,8 @@
   	@extend .border-bottom;
   	box-sizing: border-box;
   	padding: 20upx;
+    width: 100%;
+    overflow-x: hidden;
   	.t {
   		display: flex;
   		align-items: center;
