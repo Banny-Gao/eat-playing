@@ -275,7 +275,8 @@
   		const res = await this.getGoods(params)
   		this.goods = [...res]
   		this.goodsStack[this.viewIndex] = [...res]
-  	},
+    },
+    onShareAppMessage(res) {},
   	watch: {
   		user: {
   			deep: true,
