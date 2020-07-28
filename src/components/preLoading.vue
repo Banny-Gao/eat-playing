@@ -50,7 +50,7 @@ export default {
 /* Text align it the center of screen and connect the looped animation for 2.5 seconds */
 .loader .text {
   position: absolute;
-  top: 80%;
+  top: 78%;
   left: 16%;
   z-index: 5;
   font-size: 1.5em;
