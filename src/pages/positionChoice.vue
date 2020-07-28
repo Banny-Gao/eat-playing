@@ -396,7 +396,7 @@
   				address !== this.user.location.address ||
   				!uni.getStorageSync('cityList')
   			)
-  				await this.getLocationAddress(address || '成都市')
+  				await this.getLocationAddress(address || '罗江区')
 
   			const addressStatus = (this.addressStatus = this.checkAddressStatus(
   				address

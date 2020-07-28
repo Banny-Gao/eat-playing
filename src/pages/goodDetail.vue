@@ -28,6 +28,10 @@
             <text>刚刚购买了本商品</text>
           </view>
         </view>
+        <view class="flex flex-a-c end-date-wraper" v-if="endDate">
+          <text>限时抢购</text>
+          <text class="flex-1 text-right">{{endDate}}</text>
+        </view>
       </view>
       <view class="good-info"
             v-if="convertedGood.realcost">
@@ -43,8 +47,7 @@
           <image :style="{left: 20 * index + 'px'}"
                  v-for="(item, index) of randomHeaders"
                  :key="index"
-                 :src="item.url"
-                 v-if="item.url" />
+                 :src="item.url"/>
         </view>
         <view class="kefu-btn flex flex-a-c"
               v-if="convertedGood.servicePhone"
@@ -75,7 +78,7 @@
         </view>
         <view class="flex flex-a-c margin-top-10"
               v-if="convertedGood.contact_phone">
-          <text class="flex-1 ellipsis-1">联系电话 {{ convertedGood.contact_phone }}</text>
+          <text class="flex-1 ellipsis-1">联系电话： {{ convertedGood.contact_phone }}</text>
           <view class="intro-btn">
             <uni-icons type="phone-filled"
                        color="#333"
@@ -88,19 +91,19 @@
       <view id="intro_text"
             class="intro_text"
             v-if="convertedGood.intro_text">
-        <view class="text-center font-16 t">购买须知</view>
+        <view class="text-center font-16 t font-blod">购买须知</view>
         <parser :html="convertedGood.intro_text" />
       </view>
       <view id="context"
             class="context"
             v-if="convertedGood.context">
-        <view class="text-center font-16 t">商品详情</view>
+        <view class="text-center font-16 t font-blod">商品详情</view>
         <parser :html="convertedGood.context" />
       </view>
       <view id="recomend"
             class="recomend"
             v-if="convertRecomendList.length">
-        <view class="text-center font-16 t">为您推荐</view>
+        <view class="text-center font-16 t font-blod">为您推荐</view>
         <view class="goods-wraper">
           <view class="goods-item"
                 v-for="item of convertRecomendList"
@@ -258,7 +261,9 @@
   			randomHeaderTimer: null,
   			userInfoConfirmFn: function() {},
   			recomendList: [],
-  			isPreLoadingShow: true,
+        isPreLoadingShow: true,
+        endDate: '',
+        expiredTimer: null,
   		}
   	},
   	computed: {
@@ -689,20 +694,45 @@
   			const now = new Date().getTime()
   			const expiredTime = new Date(time).getTime()
   			return expiredTime < now ? true : false
-  		},
+      },
+      getEndDate() {
+        const timeDiff = new Date(this.goodInfo.end_date).getTime() - Date.now()
+        if (timeDiff < 0) {
+          this.endDate = '已结束'
+          return
+        }
+        const restDate = ~~(timeDiff / 1000 / 60 / 60 / 24)
+        const restHours = ~~(timeDiff / 1000 / 60 / 60 % 24) 
+        const restMinutes = ~~(timeDiff / 1000 / 60 % 60) 
+        const restSeconds = ~~(timeDiff / 1000 % 60) 
+
+        let text = '距结束： '
+        text += restDate ? `${restDate}天 `: ''
+        text += restHours ? `${restHours}小时 `: ''
+        text += restMinutes ? `${restMinutes}分 `: ''
+        text += restSeconds ? `${restSeconds}秒 `: ''
+
+        this.endDate = text
+      },
   	},
   	async onLoad({ id }) {
   		this.isPreLoadingShow = true
   		this.id = id
-  		await this.getGoodInfos()
-  		await this.getRandomHeader()
-  		await this.getRecommendGoods()
+  		try {
+        await this.getGoodInfos()
+        await this.getRandomHeader()
+        await this.getRecommendGoods()
+      } catch {}
   		timeTask.run(() => {
-  			this.isPreLoadingShow = false
+        this.isPreLoadingShow = false
   		}, 2000)
+      this.expiredTimer = setInterval(() => {
+        this.getEndDate()
+      }, 1000)
   	},
   	onUnload() {
-  		clearInterval(this.randomHeaderTimer)
+      clearInterval(this.randomHeaderTimer)
+      clearInterval(this.expiredTimer)
   	},
     onShareAppMessage(res) {
       if (res.from === 'button') {
@@ -738,12 +768,8 @@
   	transition: all 0.2s linear;
   	text-align: center;
   	background: #fff;
-  	border-right: borderStyle();
   	&.active {
   		color: $themeColor;
-  	}
-  	&:last-child {
-  		border: none;
   	}
   }
   .info-wraper {
@@ -816,7 +842,6 @@
   .intro_text,
   .context,
   .recomend {
-  	@extend .border-bottom;
   	box-sizing: border-box;
   	padding: 20upx;
     width: 100%;
@@ -865,7 +890,8 @@
   .good-title {
   	font-size: 32upx;
   	color: #333;
-  	margin-top: 20upx;
+    margin-top: 20upx;
+    font-weight: bold;
   }
   .intro-btn {
   	background: $themeColor;
@@ -1008,7 +1034,8 @@
   				padding: 0 16upx;
   				font-size: 28upx;
   				color: #333;
-  				height: 88upx;
+          height: 88upx;
+          font-weight: normal;
   				&.disable {
   					color: #666;
   				}
@@ -1056,5 +1083,15 @@
   			}
   		}
   	}
+  }
+  .end-date-wraper {
+    background-color: #f5f5f5;
+    position: absolute;
+    width: 100%;
+    padding: 4upx 20upx;
+    left: 0;
+    bottom: 0;
+    box-sizing: border-box;
+    font-size: 24upx;
   }
 </style>

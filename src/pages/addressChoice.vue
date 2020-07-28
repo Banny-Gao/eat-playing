@@ -2,11 +2,11 @@
   <view class="page">
     <scroll-view scroll-y>
       <view class="action-card"
-            :class="item.id === user.choicedAddress.id ? 'action-choiced': W"
+            :class="item.id === choicedItem.id ? 'action-choiced': W"
             v-for="item of addressList"
             :key="item.id"
             @click="handleChoiced(item)">
-        <uni-icons class="choiced-icon" type='circle-filled' color='#FBDE20' v-if="user.choicedAddress.id === item.id"></uni-icons>
+        <uni-icons class="choiced-icon" type='circle-filled' color='#FBDE20' v-if="choicedItem.id === item.id"></uni-icons>
         <view class="flex flex-a-c"
               :class="item.defaultFlag === 1 ? 'default': ''">
           <view class="margin-right-10">{{item.userName}}</view>
@@ -17,8 +17,8 @@
       </view>
     </scroll-view>
     <view class="action-card-wraper">
-      <view class="new-list-button"
-            @click="handleNewAddress">新建地址</view>
+      <view class="new-list-button" @click="handleChoiceAddress">选择地址</view>
+      <view class="new-list-button" @click="handleNewAddress">新建地址</view>
     </view>
     <pre-loading :show='isPreLoadingShow'/>
   </view>
@@ -47,7 +47,8 @@
   		return {
         CDNUrl,
         addressList: [],
-        isPreLoadingShow: true
+        isPreLoadingShow: true,
+        choicedItem: {},
   		}
   	},
   	computed: {
@@ -60,7 +61,14 @@
   			this.addressList = [...resp]
       },
       handleChoiced(item) {
-        this.setUserChoicedAddress(item)
+        this.choicedItem = item
+      },
+      handleChoiceAddress() {
+        if (!this.choicedItem.id) {
+          uni.showToast({ title: '请选择收货地址', icon: 'none' })
+          return
+        }
+        this.setUserChoicedAddress(this.choicedItem)
         timeTask.run(navigateBack, 800)
       },
       handleEditAddress(item) {
@@ -102,7 +110,7 @@
   	text-align: center;
   	line-height: 100upx;
   	border-radius: 10upx;
-  	margin-top: 80upx;
+  	margin-top: 40upx;
   }
   .action-card {
   	padding: 20upx 40upx;

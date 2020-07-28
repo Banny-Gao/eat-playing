@@ -112,7 +112,7 @@
   	},
   	methods: {
   		...userMutations(['setUserInfo']),
-  		...userActions(['getLocation']),
+  		...userActions(['getLocationAddress']),
   		...homeMutations(['setHomeTabState']),
   		handleCancelGetUserModalShow() {
   			this.isGetUserInfoModalShow = false
@@ -132,9 +132,7 @@
   			const { adcode } = location
 
   			if (!adcode) {
-  				this.getLocation({
-  					mapReverse: true,
-  				})
+  				this.getLocationAddress('罗江区')
   				return
   			}
 

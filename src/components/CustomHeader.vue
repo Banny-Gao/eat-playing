@@ -221,7 +221,7 @@ export default {
     }
   },
   methods: {
-    ...userActions(["getLocation"]),
+    ...userActions(["getLocationAddress"]),
     navigateToSearch() {
       navigateTo({
         url: "search"
@@ -384,9 +384,7 @@ export default {
     const pages = getCurrentPages()
     if (pages.length > 1) this.showBackIcon = true
 
-    if (!this.user.location.address) this.getLocation({
-      mapReverse: true
-    })
+    if (!this.user.location.address) this.getLocationAddress('罗江区')
   },
   watch: {
     q(val) {

@@ -112,6 +112,7 @@ const { mapMutations: homeMutations } = createNamespacedHelpers("home")
         }
   		  text.active {
   				font-size: 32upx;
+          font-weight: bold;
   			}
   		}
   	}
