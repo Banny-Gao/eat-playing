@@ -12,10 +12,10 @@
      <view class="font-15">认证类型</view>
      <view class="color-999">企业</view>
    </view>
-   <view class="margin-top-15">
+   <!-- <view class="margin-top-15">
      <view>相关证件</view>
      <image class="platform-img margin-top-20" src="cloud://rryb-yug5z.7272-rryb-yug5z-1301653930/platforminfo.jpg"></image>
-   </view>
+   </view> -->
  </scroll-view>
 </template>
 <script>

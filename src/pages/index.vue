@@ -44,11 +44,11 @@
         <text class="color-999"
               @click="handleNavigatePlatformInfo"> · 平台信息</text>
         <text class="color-999"
-              @click="handleOpenFile(`${CDNUrl}/%E7%94%A8%E6%88%B7%E9%9A%90%E7%A7%81%E6%9D%A1%E6%AC%BE.docx?sign=19dfd33b08a22d95373a0daff27f53d3&t=1585674009`)"> · 用户隐私条款</text>
+              @click="handleOpenFile(`${CDNUrl}/%E7%94%A8%E6%88%B7%E9%9A%90%E7%A7%81%E6%9D%A1%E6%AC%BE.docx`)"> · 用户隐私条款</text>
         <text class="color-999"
-              @click="handleOpenFile(`${CDNUrl}/%E5%B9%B3%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE.docx?sign=380731ecc7736845c496e0ab5fe26ecc&t=1585674196`)"> · 平台服务协议 · </text>
+              @click="handleOpenFile(`${CDNUrl}/%E5%B9%B3%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%8D%8F%E8%AE%AE.docx`)"> · 平台服务协议 · </text>
       </view>
-      <view class="text-center color-999 padding-bottom-10">吃个玩乐有吧-旗下商城 </view>
+      <view class="text-center color-999 padding-bottom-10">吃喝玩乐有吧旗下-优选商城</view>
       <official-account></official-account>
     </scroll-view>
     <pre-loading :show='isPreLoadingShow' />

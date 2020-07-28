@@ -28,11 +28,11 @@
             <text>刚刚购买了本商品</text>
           </view>
         </view>
-        <view class="flex flex-a-c end-date-wraper" v-if="endDate">
+      </view>
+      <view class="flex flex-a-c end-date-wraper" v-if="endDate">
           <text>限时抢购</text>
           <text class="flex-1 text-right">{{endDate}}</text>
         </view>
-      </view>
       <view class="good-info"
             v-if="convertedGood.realcost">
         <view class="price-group">
@@ -60,7 +60,7 @@
       <view id="org_name"
             class="org_name"
             v-if="convertedGood.org_name">
-        <view class="text-center font-16 t">商家信息</view>
+        <view class="text-center font-16 t font-blod">商家信息</view>
         <view class="flex flex-a-c">
           <text>商家名称： {{ convertedGood.org_name }}</text>
         </view>
@@ -96,6 +96,7 @@
       </view>
       <view id="context"
             class="context"
+            style="padding: 4px;"
             v-if="convertedGood.context">
         <view class="text-center font-16 t font-blod">商品详情</view>
         <parser :html="convertedGood.context" />
@@ -708,9 +709,9 @@
 
         let text = '距结束： '
         text += restDate ? `${restDate}天 `: ''
-        text += restHours ? `${restHours}小时 `: ''
-        text += restMinutes ? `${restMinutes}分 `: ''
-        text += restSeconds ? `${restSeconds}秒 `: ''
+        text += restDate || restHours ? `${restHours < 10 ? '0': ''}${restHours}小时 `: ''
+        text += restDate || restHours || restMinutes ? `${restMinutes < 10 ? '0': ''}${restMinutes}分 `: ''
+        text += `${restSeconds < 10 ? '0': ''}${restSeconds}秒 `
 
         this.endDate = text
       },
@@ -1086,11 +1087,8 @@
   }
   .end-date-wraper {
     background-color: #f5f5f5;
-    position: absolute;
     width: 100%;
     padding: 4upx 20upx;
-    left: 0;
-    bottom: 0;
     box-sizing: border-box;
     font-size: 24upx;
   }
